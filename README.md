@@ -101,7 +101,7 @@ ___
     >POST - `/api/word`
     #### Body:
     ```json
-    "name": "name (string"),
+    "name": "name (string)",
     "role": "categorization (number)",
     "english": "english-translations (string)",
     "ethimology": "ethimology (string)",
