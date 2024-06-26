@@ -1,5 +1,28 @@
 # DOCS
 
+- [Words]
+    - [Get requests]
+    - [Post request]
+    - [Put request]
+    - [Delete request]
+- [Examples]
+    - [Get requests (examples)] 
+    - [Post request (examples)]
+    - [Put request (examples)]
+    - [Delete request (examples)]
+
+
+[Words]: #words
+[Get requests]: #get-requests
+[Post request]: #post-request-create
+[Put request]: #put-request-edit
+[Delete request]: #delete-request-remove
+[Examples]: #examples
+[Get requests (examples)]: #get-requests-1
+[Post request (examples)]: #post-request-create-1
+[Put request (examples)]: #put-request-edit-1
+[Delete request (examples)]: #delete-request-remove-1
+
 <br><br>
 
 # WORDS
