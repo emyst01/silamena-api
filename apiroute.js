@@ -31,7 +31,6 @@ router.get('/word/all', async (req, res) => {
         }
         res.json(data);
     } catch (error) {
-        console.error("Error fetching all words:", error);
         res.status(500).send('Error retrieving word list', error);
     }
 });
@@ -53,7 +52,6 @@ router.get('/word', async (req, res) => {
         }
         res.json(data);
     } catch (error) {
-        console.error("Error fetching specific words:", error);
         res.status(500).send('Error retrieving words list', error);
     }
 });
@@ -80,7 +78,6 @@ router.get('/word/:englishWord', async (req, res) => {
         }
         res.json(data);
     } catch (error) {
-        console.error("Error fetching silamena words:", error);
         res.status(500).send('Error retrieving silamena words', error);
     }
 
@@ -89,19 +86,20 @@ router.get('/word/:englishWord', async (req, res) => {
 
 //Create word
 router.post('/word', (req, res) => {
-    let tempword = model.newWord();
-
-    tempword.name = req.body.name;
-    tempword.role = req.body.role;
-    tempword.english = req.body.english;
-    tempword.ethimology = req.body.ethimology;
-    tempword.description = req.body.description;
-    tempword.synonyms = req.body.synonyms;
-
-    model.dbaddWord(tempword);
-    
-    const jsonContent = JSON.stringify(tempword);
-    res.status(201).end(jsonContent);
+    if(req.body.name) {
+        let tempword = model.newWord();
+        tempword.name = req.body.name;
+        tempword.role = req.body.role;
+        tempword.english = req.body.english;
+        tempword.ethimology = req.body.ethimology;
+        tempword.description = req.body.description;
+        tempword.synonyms = req.body.synonyms;
+        model.dbaddWord(tempword);
+        const jsonContent = JSON.stringify(tempword);
+        res.status(201).end(jsonContent);
+    } else {
+        res.status(400).send("The name is missing");
+    }    
 });
 
 //Delete word
@@ -113,11 +111,10 @@ router.delete('/word/:name', (req, res) => {
             return res.status(404).send('Word not found');
         } else {
             word.destroy();
-            res.status(200).send('Word deleted successfully');
+            res.status(204).send('Word deleted successfully');
         }
     }).then(() => {}).catch(error => {
-        console.error("Error deleting word:", error);
-        res.status(500).send('Error deleting word');
+        res.status(500).send('Error deleting word:', error);
     });    
 });
 
@@ -137,10 +134,9 @@ router.put('/word/:name',  (req, res) => {
         word.synonyms = req.body.synonyms;
         return word.save();
     }).then(() => {
-        res.status(200).send('Word updated successfully');
+        res.status(202).send('Word updated successfully');
     }).catch(error => {
-        console.error("Error updating word:", error);
-        res.status(500).send('Error updating word');
+        res.status(500).send('Error updating word', error);
     });
 });
 
@@ -162,7 +158,7 @@ router.get('/example/random', async (req, res) => {
             res.status(404).send('No examples found');
         }
     } catch(error) {
-        res.status(500).send("Error:" + error);
+        res.status(500).send("Error retrieving the expressions:", error);
     }
 });
 
@@ -170,20 +166,23 @@ router.get('/example/random', async (req, res) => {
 router.get('/example/:expression', async (req, res) => {
     const expr = req.params.expression.toLowerCase().replace("_", " ");
     const num = req.query.num || 3;
-
-    const expressions = await model.Example.findAll({
-        where: {
-            silamena: {
-                [Sequelize.Op.like]: `%${expr}%`
-            }
-        },
-    });
-
-    let result = expressions.slice().sort(() => Math.random() - 0.5).slice(0, num);
-    let data = {
-        examplesList: result
+    try {
+        const expressions = await model.Example.findAll({
+            where: {
+                silamena: {
+                    [Sequelize.Op.like]: `%${expr}%`
+                }
+            },
+        });
+    
+        let result = expressions.slice().sort(() => Math.random() - 0.5).slice(0, num);
+        let data = {
+            examplesList: result
+        }
+        res.json(data);
+    } catch(error) {
+        res.status(500).send("Error retrieving the expressions:", error);
     }
-    res.json(data);
 });
 
 //Create example
@@ -208,11 +207,10 @@ router.delete('/example/:id', (req, res) => {
             return res.status(404).send('Example not found');
         } else {
             example.destroy();
-            res.status(200).send('Example deleted successfully');
+            res.status(204).send('Example deleted successfully');
         }
     }).then(() => {}).catch(error => {
-        console.error("Error deleting example:", error);
-        res.status(500).send('Error deleting example');
+        res.status(500).send('Error deleting example', error);
     });    
 });
 
@@ -229,10 +227,9 @@ router.put('/example/:id',  (req, res) => {
 
         return example.save();
     }).then(() => {
-        res.status(200).send('Example updated successfully');
+        res.status(202).send('Example updated successfully');
     }).catch(error => {
-        console.error("Error updating word:", error);
-        res.status(500).send('Error updating word');
+        res.status(500).send('Error updating word', error);
     });
 });
 

@@ -12,7 +12,11 @@ function Init() {
     try {
         Word.init(
             {
-                name: DataTypes.STRING,
+                name: {
+                    type: DataTypes.STRING,
+                    allowNull: false,
+                    primaryKey: true
+                },
                 role: DataTypes.INTEGER,
                 english: DataTypes.STRING,
                 ethimology: DataTypes.STRING,
