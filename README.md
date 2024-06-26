@@ -1,6 +1,6 @@
 # DOCS
 
-- [1] Words
+- [^1] Words
     - [3] Get requests
     - [4] Post request
     - [5] Put request
@@ -12,7 +12,7 @@
     - [10] delete request
 <br><br>
 
-[1]: words
+[^1]: words
 # WORDS
 
 ## Conventions
