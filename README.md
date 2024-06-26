@@ -31,9 +31,6 @@ ___
             "Name 1",
             "Name 2",
             "Name 3",
-            //.
-            //.
-            //.
         ],
         "wordsCount": 3
         ```
@@ -47,9 +44,6 @@ ___
         "list": [
             "Name 1",
             "Name 2"
-            //.
-            //.
-            //.
         ]
         ```
     - returns:
@@ -71,9 +65,6 @@ ___
                 "description": "This is the name's description...",
                 "synonyms": ""
             }
-            //.
-            //.
-            //.
         ]
         ```
 <br>
@@ -86,9 +77,6 @@ ___
             "Option 1",
             "Option 2",
             "Option 3",
-            //.
-            //.
-            //.
         ]
         ```
 
