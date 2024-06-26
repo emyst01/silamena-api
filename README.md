@@ -31,9 +31,9 @@ ___
             "Name 1",
             "Name 2",
             "Name 3",
-        //    .
-        //    .
-        //    .
+            //.
+            //.
+            //.
         ],
         "wordsCount": 3
         ```
@@ -47,9 +47,9 @@ ___
         "list": [
             "Name 1",
             "Name 2"
-        //    .
-        //    .
-        //    .
+            //.
+            //.
+            //.
         ]
         ```
     - returns:
@@ -71,9 +71,9 @@ ___
                 "description": "This is the name's description...",
                 "synonyms": ""
             }
-        //    .
-        //    .
-        //    .
+            //.
+            //.
+            //.
         ]
         ```
 <br>
@@ -86,9 +86,9 @@ ___
             "Option 1",
             "Option 2",
             "Option 3",
-        //    .
-        //    .
-        //    .
+            //.
+            //.
+            //.
         ]
         ```
 
@@ -101,12 +101,12 @@ ___
     >POST - `/api/word`
     #### Body:
     ```json
-    "name": name (string),
-    "role": categorization (number),
-    "english": english-translations (string),
-    "ethimology": ethimology (string),
-    "description": description/explaination (string),
-    "synonyms": possible synonyms of the word (string)
+    "name": "name (string"),
+    "role": "categorization (number)",
+    "english": "english-translations (string)",
+    "ethimology": "ethimology (string)",
+    "description": "description/explaination (string)",
+    "synonyms": "possible synonyms of the word (string)"
     ```
 
 <br>
@@ -118,12 +118,12 @@ ___
     >PUT - `/api/word/` `{name}`
     #### Body:
     ```json
-    "name": new-name,
-    "role": new-role,
-    "english": new-translation,
-    "ethimology": new-ethimology,
-    "description": new-description
-    "synonyms": new-synonyms
+    "name": "new-name",
+    "role": "new-role",
+    "english": "new-translation",
+    "ethimology": "new-ethimology",
+    "description": "new-description",
+    "synonyms": "new-synonyms"
     ```
 
 <br>
