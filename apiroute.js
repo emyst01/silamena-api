@@ -14,7 +14,7 @@ var corsOptions = {
 }
 router.use(cors())
 
-//REQUESTS MANAGER
+//WORDS
 
 //Word info
 //Get words list in a page
@@ -60,19 +60,20 @@ router.get('/word', async (req, res) => {
 
 //Get all the silamena words given an english one
 router.get('/word/:englishWord', async (req, res) => {
-    const engWord = req.params.englishWord.toLowerCase();
+    const engWord = req.params.englishWord.toLowerCase().replace("_", " ");
+    console.log(engWord);
 
     try {
         const separators = [', ', '/'];
         const silamenaWords = await model.Word.findAll({
-          where: {
-            english: {
-                [Sequelize.Op.or]: separators.map(separator => ({
-                    [Sequelize.Op.like]: `%${engWord}${separator}%`
-                }))
-            }
-          },
-          attributes: ['name']
+            where: {
+                english: {
+                    [Sequelize.Op.or]: separators.map(separator => ({
+                        [Sequelize.Op.like]: `%${engWord}${separator}%`
+                    }))
+                }
+            },
+            attributes: ['name']
         });
         const data = {
             wordsList: silamenaWords.map(word => word.name)
@@ -137,6 +138,98 @@ router.put('/word/:name',  (req, res) => {
         return word.save();
     }).then(() => {
         res.status(200).send('Word updated successfully');
+    }).catch(error => {
+        console.error("Error updating word:", error);
+        res.status(500).send('Error updating word');
+    });
+});
+
+// EXAMPLES MANAHGER
+
+//Get requests manager
+
+router.get('/example/random', async (req, res) => {
+    const num = req.query.num || 1;
+    try {
+        const examples = await model.Example.findAll();
+        if (examples.length > 0) {
+            let result = examples.slice().sort(() => Math.random() - 0.5).slice(0, num);
+            let data = {
+                examplesList: result
+            }
+            res.json(data);
+        } else {
+            res.status(404).send('No examples found');
+        }
+    } catch(error) {
+        res.status(500).send("Error:" + error);
+    }
+});
+
+//Finds 3 expression
+router.get('/example/:expression', async (req, res) => {
+    const expr = req.params.expression.toLowerCase().replace("_", " ");
+    const num = req.query.num || 3;
+
+    const expressions = await model.Example.findAll({
+        where: {
+            silamena: {
+                [Sequelize.Op.like]: `%${expr}%`
+            }
+        },
+    });
+
+    let result = expressions.slice().sort(() => Math.random() - 0.5).slice(0, num);
+    let data = {
+        examplesList: result
+    }
+    res.json(data);
+});
+
+//Create example
+router.post('/example', (req, res) => {
+    let tempex = model.newExample();
+
+    tempex.silamena = req.body.silamena;
+    tempex.english = req.body.english;
+
+    model.dbaddExample(tempex);
+    
+    const jsonContent = JSON.stringify(tempex);
+    res.status(201).end(jsonContent);
+});
+
+//Delete example
+router.delete('/example/:id', (req, res) => {
+    const param = req.params.id;
+    
+    model.Example.findOne({ where: { id: param } }).then(example => {
+        if (!example) {
+            return res.status(404).send('Example not found');
+        } else {
+            example.destroy();
+            res.status(200).send('Example deleted successfully');
+        }
+    }).then(() => {}).catch(error => {
+        console.error("Error deleting example:", error);
+        res.status(500).send('Error deleting example');
+    });    
+});
+
+//Update/Edit example
+router.put('/example/:id',  (req, res) => {
+    const param = req.params.id;
+
+    model.Example.findOne({ where: { id: param } }).then(example => {
+        if (!example) {
+            return res.status(404).send('Example not found');
+        }
+        example.silamena = req.body.silamena;
+        example.english = req.body.english;
+
+        return example.save();
+    }).then(() => {
+        res.status(200).send('Example updated successfully');
     }).catch(error => {
         console.error("Error updating word:", error);
         res.status(500).send('Error updating word');
