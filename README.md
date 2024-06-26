@@ -1,18 +1,7 @@
 # DOCS
 
-- [^1] Words
-    - [3] Get requests
-    - [4] Post request
-    - [5] Put request
-    - [6] Delete request
-- [2] Examples
-    - [7] Get requests
-    - [8] Post request
-    - [9] Put request
-    - [10] delete request
 <br><br>
 
-[^1]: words
 # WORDS
 
 ## Conventions
@@ -37,7 +26,6 @@
 
 ___
 
-[3]: get
 ## Get requests
 - Get all words in alphabetical order (only names)
     >GET - `/api/word/all`
@@ -100,7 +88,6 @@ ___
 
 ___
 
-[4]: post
 ## Post request (create)
 - Create a word
     >POST - `/api/word`
@@ -118,7 +105,6 @@ ___
 
 ___
 
-[5]: put
 ## Put request (edit)
 - Edit a word
     >PUT - `/api/word/` `{name}`
@@ -136,7 +122,6 @@ ___
 
 ___
 
-[6]: delete
 ## Delete request (remove)
 - Delete a word
     >DELETE - `/api/word/` `{name}`
@@ -144,10 +129,8 @@ ___
 
 <br>
 
-[2]: examples
 # EXAMPLES
 
-[7]: get
 ## Get requests
 - Get a _num_ of random examples (**num is by default 1**)
     >GET - `/api/example/random` `{?num=num}`
@@ -185,7 +168,6 @@ ___
         ]
         ```
 
-[8]: post
 ## Post request (create)
 - Create an example
     >POST - `/api/example`
@@ -199,7 +181,6 @@ ___
 
 ___
 
-[9]: put
 ## Put request (edit)
 - Edit an example
     >PUT - `/api/example/` `{id}`
@@ -213,7 +194,6 @@ ___
 
 ___
 
-[10]: delete
 ## Delete request (remove)
 - Delete an example
     >DELETE - `/api/example/` `{id}`
