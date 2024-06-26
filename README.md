@@ -6,7 +6,7 @@
     - [Put request]
     - [Delete request]
 - [Examples]
-    - [Get requests (examples)] 
+    - [Get requests (examples)] 
     - [Post request (examples)]
     - [Put request (examples)]
     - [Delete request (examples)]
