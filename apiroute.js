@@ -84,29 +84,6 @@ router.get('/word/:englishWord', async (req, res) => {
     }
 
 
-    // il database ha una tabella chiamata Words, dentro ci sono tutte le parole (righe) presenti in un piccolo dizionario. una delle colonne è "english" ed essa contiene una stringa con tutte le traduzioni in inglese di quella parola separate da una virgola e uno spazio nel seguente modo: ", ". Voglio che il codice metta in un array il nome ("name") (è una delle colonne) di tutte quelle parole la cui traduzione è uguale a engWord
-/*
-    try {
-        const silamenaWords = await model.Word.findAll({
-          where: {
-            english: {
-              [Sequelize.Op.or]: Sequelize.fn('split', Sequelize.col('english'), ', '),
-              [Sequelize.Op.like]: `%${engWord}%`
-            }
-          },
-          attributes: [Sequelize.fn('unnest', Sequelize.fn('split', Sequelize.col('english'), ', '))],
-        });
-        console.log(silamenaWords);
-        const wordsList = silamenaWords.map(word => word[0]);
-        const data = {
-          wordsList: wordsList
-        };
-        res.json(data);
-    } catch (error) {
-        console.error("Error fetching silamena words:", error);
-        res.status(500).send('Error retrieving silamena words', error);
-    }
-*/
 });
 
 //Create word
