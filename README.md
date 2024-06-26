@@ -1,6 +1,8 @@
 # DOCS
 
-<br>
+<br><br>
+
+# WORDS
 
 ## Conventions
 - #### Roles
@@ -17,7 +19,9 @@
 >        11. Other
 - #### English translations
 >        All translations should be separated by a comma followed by a space (example, dog, translation)
-    
+- #### Requests
+>       the title of the request cannot contain spaces: by convention the underscores are used
+
 <br>
 
 ___
@@ -121,4 +125,76 @@ ___
 ## Delete request (remove)
 - Delete a word
     >DELETE - `/api/word/` `{name}`
+___
+
+<br>
+
+# EXAMPLES
+
+## Get requests
+- Get a _num_ of random examples (**num is by default 1**)
+    >GET - `/api/example/random` `{?num=num}`
+
+    - returns
+        ```json
+        "examplesList": [
+            "Example"
+        ]
+        ```
+
+<br>
+
+- Get a _num_ of examples given an english expression (**num is by default 3**)
+    >GET - `/api/example/` `{expression}` `[?num=num]`
+
+    - returns
+        ```json
+        "examplesList": [
+            {
+                "id": 1,
+                "silamena": "Example 1",
+                "english": "Example 1 in english"
+            },
+            {
+                "id": 2,
+                "silamena": "Example 2",
+                "english": "Example 2 in english"
+            },
+            {
+                "id": 3,
+                "silamena": "Example 3",
+                "english": "Example 3 in english"
+            },
+        ]
+        ```
+    
+## Post request (create)
+- Create an example
+    >POST - `/api/example`
+    #### Body:
+    ```json
+    "silamena": "silamena example (string)",
+    "english": "enslish translation (number)"
+    ```
+
+<br>
+
+___
+
+## Put request (edit)
+- Edit an example
+    >PUT - `/api/example/` `{id}`
+    #### Body:
+    ```json
+    "silamena": "new-silamena-example",
+    "english": "new-english-translation"
+    ```
+
+<br>
+
+___
+
+## Delete request (remove)
+- Delete an example
+    >DELETE - `/api/example/` `{id}`
 ___
