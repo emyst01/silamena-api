@@ -44,7 +44,6 @@
 >        All translations should be separated by a comma followed by a space (example, dog, translation)
 - #### Requests
 >       the title of the request cannot contain spaces: by convention the underscores are used
-
 <br>
 
 ___
@@ -61,7 +60,6 @@ ___
         ],
         "wordsCount": 3
         ```
-
 <br>
 
 - Gets an array of words relative to the array of given names
@@ -97,7 +95,7 @@ ___
 <br>
 
 - Gets all the silamena words given an english one (only names)
-    >GET - `/api/word/` `{english-name}`
+    >GET - `/api/word/` `{english-word}`
     - returns
         ```json
         "wordsList": [
@@ -106,7 +104,14 @@ ___
             "Option 3",
         ]
         ```
+<br>
 
+- Finds if an english word has a silamena translation
+    >GET - `/api/word/exists` `{english-word}`
+    - returns
+        ```json
+        "exists": false
+        ```
 <br>
 
 ___
