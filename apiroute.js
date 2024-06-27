@@ -56,19 +56,54 @@ router.get('/word', async (req, res) => {
     }
 });
 
+//Is there a silamena translation
+router.get('/word/exists/:word', async (req, res) => {
+    const word = req.params.word.toLowerCase().replace('_', " ");
+    await model.Word.findOne({
+        where: {
+            english: {
+                [Sequelize.Op.or]: [
+                    {[Sequelize.Op.eq]: word},
+                    {[Sequelize.Op.startsWith]: `${word}, %`},
+                    {[Sequelize.Op.endsWith]: `%, ${word}`},
+                    {[Sequelize.Op.like]: `%, ${word}, %`},
+                    {[Sequelize.Op.startsWith]: `${word}/%`},
+                    {[Sequelize.Op.endsWith]: `%/${word}`},
+                    {[Sequelize.Op.like]: `%/${word}/%`},
+                    {[Sequelize.Op.like]: `%, ${word}/%`},
+                    {[Sequelize.Op.like]: `%/${word}, %`},
+                ]
+            }
+        }
+    }).then((row) => {
+        if(row) {
+            res.json({exists:true})
+        } else {
+            res.json({exists:false})
+        }
+    });
+});
+
 //Get all the silamena words given an english one
-router.get('/word/:englishWord', async (req, res) => {
-    const engWord = req.params.englishWord.toLowerCase().replace("_", " ");
-    console.log(engWord);
+router.get('/word/:inputWord', async (req, res) => {
+    const inputWord = req.params.inputWord.toLowerCase().replace("_", " ");
 
     try {
-        const separators = [', ', '/'];
         const silamenaWords = await model.Word.findAll({
+            
             where: {
                 english: {
-                    [Sequelize.Op.or]: separators.map(separator => ({
-                        [Sequelize.Op.like]: `%${engWord}${separator}%`
-                    }))
+                    [Sequelize.Op.or]: [
+                        {[Sequelize.Op.eq]: inputWord},
+                        {[Sequelize.Op.startsWith]: `${inputWord}, %`},
+                        {[Sequelize.Op.endsWith]: `%, ${inputWord}`},
+                        {[Sequelize.Op.like]: `%, ${inputWord}, %`},
+                        {[Sequelize.Op.startsWith]: `${inputWord}/%`},
+                        {[Sequelize.Op.endsWith]: `%/${inputWord}`},
+                        {[Sequelize.Op.like]: `%/${inputWord}/%`},
+                        {[Sequelize.Op.like]: `%, ${inputWord}/%`},
+                        {[Sequelize.Op.like]: `%/${inputWord}, %`},
+                    ]
                 }
             },
             attributes: ['name']
@@ -78,10 +113,9 @@ router.get('/word/:englishWord', async (req, res) => {
         }
         res.json(data);
     } catch (error) {
-        res.status(500).send('Error retrieving silamena words', error);
+        console.log(error);
+        res.status(500).send('Error retrieving silamena words');
     }
-
-
 });
 
 //Create word
@@ -143,7 +177,7 @@ router.put('/word/:name',  (req, res) => {
 // EXAMPLES MANAHGER
 
 //Get requests manager
-
+//Get random example
 router.get('/example/random', async (req, res) => {
     const num = req.query.num || 1;
     try {
